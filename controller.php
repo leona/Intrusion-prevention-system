@@ -1,16 +1,13 @@
 <?php
 use IPS\core\classes\initCore;
 
-$core = new initCore;
-
 if (!defined('initiated')) {
     define('initiated', true);
     
-    $core->loadModulesBy(array(
-        'initiation_type' => 'start'
-    ));
+    $core = new initCore;
+    
+    $core->runModulesEvent('start');
 } else {
-    $core->loadModulesBy(array(
-        'initiation_type' => 'end'
-    ));
+    
+    $core->runModulesEvent('end');
 }

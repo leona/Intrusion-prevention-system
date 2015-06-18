@@ -1,5 +1,7 @@
 <?php
 
 return array(
-    'initiation_type' => 'start'
+    'events' => array('start', 'end'),
+    'namespace' => '\CSRF',
+    'enabled' => true//config::moduleStatus('csrf');
 );

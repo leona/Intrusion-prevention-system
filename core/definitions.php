@@ -2,5 +2,6 @@
 $definitions = array();
 
 $definitions['classes'] = array(
-    'init'
+    'init',
+    'http'
 );
