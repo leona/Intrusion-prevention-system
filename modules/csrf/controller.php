@@ -1,8 +1,9 @@
 <?php
 namespace IPS\modules\CSRF;
 use IPS\core\classes\http;
+use IPS\core\classes\BaseModule;
 
-class Controller {
+class Controller extends BaseModule {
 
     public function eventListener($event, $event_data) {
         switch($event) {

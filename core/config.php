@@ -3,7 +3,7 @@
 return array(
     'cache_type' => 'apc',//APC, Memcache, JSON
     'caching' => array(
-        'directory_scans'   => true,
+        'directory_scans'   => false,
         'model_queries'     => false,
         'meta_queries'      => false,
         'autoloads'         => false,
