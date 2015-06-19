@@ -1,7 +1,7 @@
 <?php
 
 namespace IPS\core\classes;
-
+use IPS\core\classes\cache;
 
 class initCore {
     
@@ -30,11 +30,17 @@ class initCore {
     }
     
     private function fetchModuleOptions() {
+        if (cache::fetch('module_options', config::core('caching')['directory_scans'])) {
+            $this->module_options = unserialize(cache::fetch('module_options'));
+            return;
+        }
+        
         foreach(glob(dirname(__FILE__) . '/../../modules/*/options.php') as $value) {
             $module_options = include $value;
             
             if ($module_options['enabled'] == true) 
                 $this->module_options[str_replace('options.php', '', $value)] = $module_options;
         }
+        cache::store('module_options', $this->module_options);
     }
 }

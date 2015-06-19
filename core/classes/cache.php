@@ -4,16 +4,28 @@ namespace IPS\core\classes;
 
 class cache {
     
+    private static $cache_store = array();
     
-    public function store($key, $value, $time = null) {
-        
+    public static function store($key, $value, $time = 0) {
+        if (is_array($value) || is_object($value)) 
+            $value = serialize($value);
+
+        apc_store($key, $value, $time);
     }
     
-    public function fetch($key) {
+    public static function fetch($key, $condition = true) {
+        if ($condition == false)
+            return false;
         
+        if (!empty(self::$cache_store[$key]))
+            return self::$cache_store[$key];
+         
+        self::$cache_store[$key] = apc_fetch($key);
+        
+        return self::$cache_store[$key];
     }
     
-    public function remove($key) {
-        
+    public static function remove($key) {
+        apc_delete($key);
     }
 }
