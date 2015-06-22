@@ -1,6 +1,7 @@
 <?php
 require(dirname(__FILE__) . '/classes/cache.php');
 require(dirname(__FILE__) . '/models/config.php');
+
 use IPS\core\classes\cache;
 use IPS\core\classes\config;
 

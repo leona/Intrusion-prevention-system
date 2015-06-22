@@ -7,4 +7,8 @@ class log {
     public function __construct() {
         
     }
+    
+    public function addLog() {
+        
+    }
 }

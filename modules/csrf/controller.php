@@ -6,6 +6,7 @@ use IPS\core\classes\BaseModule;
 class Controller extends BaseModule {
 
     public function eventListener($event, $event_data) {
+        //remove this func and make it just call these functions if they exist.cache the function exist check
         switch($event) {
             case 'start':
                 $this->moduleStart();
@@ -14,16 +15,22 @@ class Controller extends BaseModule {
                 $this->moduleEnd();
             break;
             case 'client_warning':
-                $this->sendText();
+                $this->sendText($event_data);
             break;
+            case 'route_event':
+                $this->execRoute($event_data);
+                break;
         }
     }
     
-    private function moduleStart() {
+    private function execRoute($route_data) {
         
     }
+    public function startModule() {
+        echo 1;
+    }
     
-    private function moduleEnd() {
-        
+    public function endModule() {
+        echo 2;
     }
 }

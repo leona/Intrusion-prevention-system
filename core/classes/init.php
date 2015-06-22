@@ -10,12 +10,11 @@ class initCore {
     
     public function __construct() {
         $this->fetchModuleOptions();
-    
+
     }
     
     public function runModulesEvent($event, $event_data = null) {
         foreach($this->module_options as $path => $options) {
-            if (in_array($event, $options['events'])) {
                 include_once($path . 'controller.php');
                 
                 if (empty($this->module_objects[$path])) {
@@ -23,9 +22,8 @@ class initCore {
                     
                     $this->module_objects[$path] = new $module_class;
                 }
-                
-                $this->module_objects[$path]->eventListener($event, $event_data);
-            }
+                if (method_exists($this->module_objects[$path], $event));
+                    $this->module_objects[$path]->$event($event_data);
         }
     }
     

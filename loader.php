@@ -9,10 +9,10 @@ if (!defined('initiated')) {
     
     $core = new initCore;
     
-    $core->runModulesEvent('start');
+    $core->runModulesEvent('startModule');
 } else {
     
-    $core->runModulesEvent('end');
+    $core->runModulesEvent('endModule');
 
     $end =  microtime(true) - $start;
     echo '<br>Overhead: ' . $end;
