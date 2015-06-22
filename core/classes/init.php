@@ -7,6 +7,7 @@ class initCore {
     
     private $module_options = array();
     private $module_objects = array();
+    private $module_class;
     
     public function __construct() {
         $this->fetchModuleOptions();
@@ -17,13 +18,17 @@ class initCore {
         foreach($this->module_options as $path => $options) {
                 include_once($path . 'controller.php');
                 
+                $this->module_class = '\IPS\modules'. $options['namespace'] . '\Controller';
+                
                 if (empty($this->module_objects[$path])) {
-                    $module_class = '\IPS\modules'. $options['namespace'] . '\Controller';
                     
-                    $this->module_objects[$path] = new $module_class;
+                    $this->module_objects[$path] = new $this->module_class;
                 }
-                if (method_exists($this->module_objects[$path], $event));
-                    $this->module_objects[$path]->$event($event_data);
+         
+                if (is_callable(array($this->module_class, $event)))
+                   $this->module_objects[$path]->$event($event_data);
+                    
+                   //echo $event . '<br>' . $this->module_class . '<br><br>';
         }
     }
     

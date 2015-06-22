@@ -29,17 +29,21 @@ class cache {
         apc_delete($key);
     }
     
-    public static function fileCache($location, $cach_name = null) {
+    public static function fileCache($location, $cache_name = null) {
         switch($location) {
             case 'start': 
                 ob_start();
             break;
             case 'end':
-                if (!empty($cach_name)) {
-                    
+                if (!empty($cache_name)) {
+                    file_put_contents(ips_path . '/cache/' . $cache_name);
                 } 
                 return ob_get_clean();
             break;
         }
+    }
+    
+    public static function fetchCacheFile($location) {
+        
     }
 }
