@@ -8,6 +8,7 @@ class Controller extends BaseModule {
     }
     
     public function endModule() {
+        echo 'end';
     }
     
     public function execRoute($uri, $request_method = 'GET') {

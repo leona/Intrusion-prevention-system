@@ -14,6 +14,6 @@ return array(
         'db'    => 'ips',
         'pass'  => '',
         'host'  => '127.0.0.1',
-    )
-    
+    ),
+    'javascript_include' => true
 );

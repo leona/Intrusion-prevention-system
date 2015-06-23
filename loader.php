@@ -6,6 +6,8 @@ use IPS\core\classes\initCore;
 
 if (!defined('ips_initiated')) {
     define('ips_path', dirname(__FILE__));
+    
+    $start = microtime(true);
     define('ips_initiated', true);
     
     $core = new initCore;
@@ -14,4 +16,7 @@ if (!defined('ips_initiated')) {
 } else {
     
     $core->runModulesEvent('endModule');
+
+    $end =  microtime(true) - $start;
+    echo '<br>Overhead: ' . $end;
 }

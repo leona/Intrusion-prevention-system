@@ -20,15 +20,11 @@ class initCore {
                 
                 $this->module_class = '\IPS\modules'. $options['namespace'] . '\Controller';
                 
-                if (empty($this->module_objects[$path])) {
-                    
+                if (empty($this->module_objects[$path])) 
                     $this->module_objects[$path] = new $this->module_class;
-                }
          
                 if (is_callable(array($this->module_class, $event)))
                    $this->module_objects[$path]->$event($event_data);
-                    
-                   //echo $event . '<br>' . $this->module_class . '<br><br>';
         }
     }
     
