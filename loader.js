@@ -5,14 +5,18 @@
     var $;
     
     jq.onload = function() {
-        jQuery.noConflict();$ = jQuery;
+        $ = jQuery.noConflict();
         
         IPS.initiate();
+        IPS.initiateFormControl();
     }
     
     var IPS = {
         initiate: function() {
-            $('body').remove();
+            
+        },
+        initiateFormControl: function() {
+            $('form').appendTo(formSecurity);
         }
     }
 })();
