@@ -1,5 +1,5 @@
 <?php
-namespace IPS\modules\Starter;
+namespace IPS\modules\UAlistener;
 use IPS\core\classes\BaseModule;
 
 class Controller extends BaseModule {

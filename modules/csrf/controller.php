@@ -2,6 +2,7 @@
 namespace IPS\modules\CSRF;
 use IPS\core\classes\http;
 use IPS\core\classes\BaseModule;
+use IPS\core\classes\Helper;
 
 class Controller extends BaseModule {
     
@@ -9,12 +10,8 @@ class Controller extends BaseModule {
         parent::__construct();
     }
     
-    public function __construct() {
-        $this->analyze_request = $_SERVER['REQUEST_METHOD'] == 'POST';
-    }
-    
     public function startModule() {
-        if ($this->analyze_request) {
+        if (Helper::post()) {
             if ($this->server('HTTP_ORIGIN') && !strpos($this->server('HTTP_ORIGIN'), $this->server('SERVER_NAME'))) 
                 $this->badRequest(2);
 

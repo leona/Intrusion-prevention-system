@@ -7,13 +7,11 @@ class Controller extends BaseModule {
     private $finfo;
     
     public function __construct() {
-        parent::__construct();
-    }
-    
-    public function __construct() {
         if (empty($_FILES)) 
             return false;
             
+        parent::__construct();
+        
         $this->finfo = finfo_open(FILEINFO_MIME_TYPE);
     }
     

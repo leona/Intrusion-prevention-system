@@ -1,6 +1,7 @@
 <?php
-namespace IPS\modules\Starter;
+namespace IPS\modules\RequestListener;
 use IPS\core\classes\BaseModule;
+use IPS\core\classes\DB;
 
 class Controller extends BaseModule {
     
