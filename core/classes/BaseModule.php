@@ -5,51 +5,44 @@ namespace IPS\core\classes;
 class BaseModule {
     
     private $child;
+    private $child_dir;
+    private $options;
     
     public function __construct() {
         $this->child = get_called_class();
     }
-    public function server($key) {
+    protected function server($key) {
         if (!empty($_SERVER[$key])) 
             return $_SERVER[$key];
     }
-    
-    public function throwException($rtn_obj) {
+
+    protected function moduleOption($name) {
+        if (empty($this->options))
+            $this->options = include($this->fetchChildDir() . 'options.php');
         
+        return $this->options[$name];
     }
     
-    public function moduleOption($name) {
-        $controller_path = str_replace('controller.php', '', (new \ReflectionClass($this->child))->getFileName());
-        
-        $options = include($controller_path . 'options.php');
-        
-        return $options[$name];
+    protected function renderView($name) {
+        include($this->fetchChildDir() . 'views/' . $name . '.php');
+        die();
     }
     
-    public function badRequest($severity = 1) {
-        if ($severity >= 2 && $severity <= 3)
-            $this->logClient(array('msg' => $this->moduleOption('error_msg')[$severity]));
-            
-        $this->throwError();
-    }
-    
-    public function fetchLog($level) {
+    protected function buildLog($level) {
         return array(
                 'trigger'     => $this->child,
                 'level'       => $level,
                 'message'     => $this->moduleOption('error_msg')[$level],
                 'request_uri' => $this->server('REQUEST_URI'),
-                'headers' => getallheaders()
+                'headers'     => implode('|', getallheaders())
         );
     }
-    public function throwError($type = null) {
-        $type = $type == null ? config::get('bad_request_message') : $type;
+    
+    private function fetchChildDir() {
+        if (!empty($this->child_dir)) return $this->child_dir;
         
-        switch($type) {
-            case '404':
-                echo 404;
-                break;
-        }
-
+        $this->child_dir = str_replace('controller.php', '', (new \ReflectionClass($this->child))->getFileName());
+        
+        return $this->child_dir;
     }
 }

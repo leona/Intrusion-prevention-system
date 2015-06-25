@@ -11,8 +11,9 @@ class Controller extends BaseModule {
     
     public function clientException($data) {
         if ($data['level'] > 1) {
-            DB::query('INSERT into logs (log_message, request_uri, headers, triggered_module) values(?, ?, ?, ?)')
-                ->bind($data['message'], $data['request_uri'], implode('|', $data['headers']), $data['trigger'])->exec();
+            DB::query('INSERT into logs (log_message, request_uri, headers, triggered_module, time) values(?, ?, ?, ?, ?)')
+                ->bind($data['message'], $data['request_uri'], $data['headers'], $data['trigger'], time())
+                ->exec();
         }
     }
 }
