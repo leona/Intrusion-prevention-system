@@ -24,7 +24,7 @@ class initCore {
                     $this->module_objects[$path] = new $this->module_class;
          
                 if (is_callable(array($this->module_class, $event)))
-                   $this->module_objects[$path]->$event($event_data);
+                   $this->module_objects[$path]->$event($event_data, $this);
         }
     }
     

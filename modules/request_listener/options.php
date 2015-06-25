@@ -2,5 +2,5 @@
 
 return array(
     'namespace' => '\RequestListener',
-    'enabled' => true
+    'enabled' => false
 );

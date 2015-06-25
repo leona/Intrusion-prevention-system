@@ -33,8 +33,14 @@ class BaseModule {
         $this->throwError();
     }
     
-    public function logClient($store) {
-        
+    public function fetchLog($level) {
+        return array(
+                'trigger'     => $this->child,
+                'level'       => $level,
+                'message'     => $this->moduleOption('error_msg')[$level],
+                'request_uri' => $this->server('REQUEST_URI'),
+                'headers' => getallheaders()
+        );
     }
     public function throwError($type = null) {
         $type = $type == null ? config::get('bad_request_message') : $type;

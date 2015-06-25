@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    'namespace' => '\RequestListener',
+    'namespace' => '\LogManager',
     'enabled' => true
 );

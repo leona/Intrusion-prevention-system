@@ -9,7 +9,7 @@ class DB {
     static $static_db;
     
     public function __construct($conf, $cache_object = null) {
-        $this->db = new PDO("mysql:host={$conf['host']};dbname={$conf['db']}", $conf['user'], $conf['pass'], array( PDO::ATTR_PERSISTENT => true ));
+        $this->db = new \PDO("mysql:host={$conf['host']};dbname={$conf['db']}", $conf['user'], $conf['pass'], array( \PDO::ATTR_PERSISTENT => true ));
     }
     
     public static function query($query) {
@@ -21,13 +21,13 @@ class DB {
         return self::$static_db;
     }
     
-    public function fetchAll($return_type = PDO::FETCH_OBJ) {
+    public function fetchAll($return_type = \PDO::FETCH_OBJ) {
         $this->exec();
         
         return $this->query->fetchAll($return_type);
     }
 
-    public function fetch($return_type = PDO::FETCH_OBJ) {
+    public function fetch($return_type = \PDO::FETCH_OBJ) {
         $this->exec();
         
         return $this->query->fetch($return_type);
@@ -48,16 +48,16 @@ class DB {
         foreach($values as $key => $value) {
             switch(true) {
                 case is_int($value):
-                    $type = PDO::PARAM_INT;
+                    $type = \PDO::PARAM_INT;
                     break;
                 case is_bool($value):
-                    $type = PDO::PARAM_BOOL;
+                    $type = \PDO::PARAM_BOOL;
                     break;
                 case is_null($value):
-                    $type = PDO::PARAM_NULL;
+                    $type = \PDO::PARAM_NULL;
                     break;
                 default:
-                    $type = PDO::PARAM_STR;
+                    $type = \PDO::PARAM_STR;
             }
             
             $this->query->bindValue($key + 1, $value, $type);
