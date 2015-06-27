@@ -16,7 +16,7 @@ if (!defined('ips_initiated')) {
 } else {
     
     $core->runModulesEvent('endModule');
-
+    
     $end =  microtime(true) - $start;
     echo '<br>Overhead: ' . $end;
 }

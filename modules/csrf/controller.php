@@ -15,7 +15,7 @@ class Controller extends BaseModule {
                 $core->runModulesEvent('clientException', $this->buildLog(1));
                 
             } else if ($this->server('HTTP_REFERER') && parse_url($this->server('HTTP_REFERER'))['host'] !== $this->server('SERVER_NAME')) {
-                $core->runModulesEvent('clientException', $this->buildLog(2));
+                $core->runModulesEvent('clientException', $this->buildLog(1));
             }
         }
     }

@@ -11,11 +11,19 @@ class BaseModule {
     public function __construct() {
         $this->child = get_called_class();
     }
+    
     protected function server($key) {
         if (!empty($_SERVER[$key])) 
             return $_SERVER[$key];
+        
+        
     }
 
+    protected function post($key) {
+        if (!empty($_POST[$key])) 
+            return $_POST[$key];
+    }
+    
     protected function moduleOption($name) {
         if (empty($this->options))
             $this->options = include($this->fetchChildDir() . 'options.php');

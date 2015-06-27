@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+    </head>
+    
+    <body>
+        <form action="/ids/" method="POST" enctype="multipart/form-data">
+            <input type="checkbox" name="test1">
+            <input name="test_file" type="file">
+            <input type="submit">
+        </form>
+        
+        <script src="ips/loader.js"></script>
+    </body>
+</html>

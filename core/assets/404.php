@@ -1,6 +1,7 @@
 <?php
 header( "HTTP/1.1 404 Not Found" );
 ?>
+
 <html>
 <head><title>404 Not Found</title></head>
 <body bgcolor="white">
@@ -8,4 +9,6 @@ header( "HTTP/1.1 404 Not Found" );
 <hr><center>nginx/1.4.6 (Ubuntu)</center>
 </body>
 </html>
- 
+<?php 
+die();
+?>
