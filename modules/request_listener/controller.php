@@ -16,11 +16,20 @@ class Controller extends BaseModule {
         }, array('test1', 'test3', 'test2')));
     }
     
+    private function implodeRequestAndRunCondition($condition) {
+        $headers = implode('|', getallheaders());
+        
+        return $condition($headers);
+    }
     private function requestChecker($request) {
         
     }
     
     private function uriChecker($request_uri) {
+        $urls = include('urls.php');
         
+        if (strpos($request_uri, implode('|', $urls))) {
+            return true;
+        }
     }
 }
