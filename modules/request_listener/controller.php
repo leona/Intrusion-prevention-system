@@ -4,29 +4,60 @@ use IPS\core\classes\BaseModule;
 
 class Controller extends BaseModule {
     
+    private $keywords;
+    private $features;
+    private $pattern;
+    private $urls;
+    private $core;
+    
     public function __construct() {
-        $keywords = include('keywords.php');
+        parent::__construct();
+        
+        $this->hot_urls = $this->asset('urls.php');
+        $this->keywords = $this->asset('keywords.php');
+        $this->patterns = $this->asset('patterns.php');
+        $this->features = $this->enabledFeatures();
     }
     
-    public function startModule() {
-        $test = array_filter(array_map(function($value) {
-            if ($value == 'test2') 
-                return $value;
-                
-        }, array('test1', 'test3', 'test2')));
+    public function startModule($data, $core) {
+        $this->core = $core;
+        
+        foreach($this->features as $feature) {
+            switch($feature) {
+                case 'header_implode_scan':
+                    $this->massHeaderScan();
+                    break;
+                case 'individual_post_scan':
+                    $this->scanKeywords($_POST);
+                break;
+                case 'individual_get_scan':
+                    //same as above
+                break;
+                case 'regex_scanning':
+                    $this->runRegex($_POST);
+                break;
+            }
+        }
     }
     
-    private function implodeRequestAndRunCondition($condition) {
+    private function massHeaderScan() {
         $headers = implode('|', getallheaders());
         
-        return $condition($headers);
+        $result = $this->conditionKeyArray(function($key, $value) {
+            if (strpos($key, $headers))
+                return $value;
+        }, $this->hot_urls);
+        
+        if (!empty($result)) {
+            $this->core->runModulesEvent('clientException', $this->buildLog(2));
+        }
     }
     private function requestChecker($request) {
         
     }
     
     private function uriChecker($request_uri) {
-        $urls = include('urls.php');
+        $urls = $this->asset('urls.php');
         
         if (strpos($request_uri, implode('|', $urls))) {
             return true;
