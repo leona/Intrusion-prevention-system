@@ -6,16 +6,9 @@ use IPS\core\classes\cache;
 class api {
     
     public static function pullFeed($url, $ttl = null) {
-        return cache::segment(function() {
+        //semd to a cron dispatcher to send the request before the cache expires to prevent long load time for a user.
+        return cache::segment(function() use($url) {
             return file_get_contents($url);
         }, $url, $ttl);
-        /*
-        $feed = cache::fetch($url);
-        
-        if (empty($feed)) {
-            $feed = file_get_contents($url);
-            cache::store($url, $feed, $ttl);
-        }
-        return $feed;*/
     }
 }

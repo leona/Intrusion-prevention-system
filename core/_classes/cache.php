@@ -15,7 +15,7 @@ class cache {
         }
         
         $store = $callback();
-        
+     
         if (is_array($store))
             $store = serialize($store);
             
@@ -23,6 +23,9 @@ class cache {
     }
     
     public static function store($key, $value, $time = 0) {
+        if (!function_exists('apc_fetch')) 
+            return false;
+            
         if (is_array($value) || is_object($value)) 
             $value = serialize($value);
 
@@ -32,6 +35,9 @@ class cache {
     }
     
     public static function fetch($key, $condition = true) {
+        if (!function_exists('apc_fetch'))
+            return false;
+            
         if ($condition == false)
             return false;
         
