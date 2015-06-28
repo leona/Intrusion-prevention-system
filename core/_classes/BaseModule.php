@@ -30,29 +30,48 @@ class BaseModule {
     }
     
     protected function enabledFeatures() {
-        return $this->conditionKeyArray(function($key, $value) {
-            if ($value == true) return $key;
-        }, $this->moduleOption('enabled_features'));
+        $this->enabled_features = $this->filterArray($this->moduleOption('enabled_features'));
+        
+        return $this->enabled_features;
     }
     
-    protected function conditionKeyArray($callback, $array) {
-        return array_filter(array_walk(function($key, $value) {
+    protected function conditionKeyArray($callback, $array, &$result) {
+        array_walk($array, function(&$key, $value) use($callback) {
             return $callback($key, $value);
-        }, $array));
+        });
+
+        $this->filterArray($array);
+        $result = $array;
+        return $array;
     }
     
-    protected function conditionArray($callback, $array) {
-        return array_filter(array_map(function($value) {
+    protected function conditionArray($callback, $array, &$result) {
+        $rtn = array_map(function($value) use($callback) {
             return $callback($value);
-        }, $array));
+        }, $array);
+        
+        $this->filterArray($rtn);
+        $result = $rtn;
+        return $rtn;
     }
-   
+    
+    private function filterArray(&$arr) {
+        if (is_array($arr)) 
+            $arr = array_filter($arr);
+            
+        return $arr;
+    }
+    
     protected function asset($name) {
         return $this->fetchChildDir() . 'assets/' . $name;
     }
     
-    protected function renderView($name) {
+    protected function renderView($name, $core = null) {
         include($this->fetchChildDir() . 'views/' . $name . '.php');
+           
+        if (!empty($core))
+            $core->runModulesEvent('endModules');
+            
         die();
     }
     
@@ -73,4 +92,9 @@ class BaseModule {
         
         return $this->child_dir;
     }
-}t
+    
+    protected function dd($array) {
+        print_r($array);
+        die();
+    }
+}

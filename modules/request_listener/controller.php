@@ -9,13 +9,15 @@ class Controller extends BaseModule {
     private $pattern;
     private $urls;
     private $core;
+    private $results = array();
     
     public function __construct() {
         parent::__construct();
         
-        $this->hot_urls = $this->asset('urls.php');
-        $this->keywords = $this->asset('keywords.php');
-        $this->patterns = $this->asset('patterns.php');
+        $this->hot_urls = include $this->asset('urls.php');
+        $this->keywords = include $this->asset('keywords.php');
+        $this->patterns = include $this->asset('patterns.php');
+        
         $this->features = $this->enabledFeatures();
     }
     
@@ -25,7 +27,7 @@ class Controller extends BaseModule {
         foreach($this->features as $feature) {
             switch($feature) {
                 case 'header_implode_scan':
-                    $this->massHeaderScan();
+                    $this->scanRequest($this->server('REQUEST_URI'), );
                     break;
                 case 'individual_post_scan':
                     $this->scanKeywords($_POST);
@@ -40,17 +42,12 @@ class Controller extends BaseModule {
         }
     }
     
-    private function massHeaderScan() {
-        $headers = implode('|', getallheaders());
-        
-        $result = $this->conditionKeyArray(function($key, $value) {
-            if (strpos($key, $headers))
+    private function scanRequest($request, $search, $result_key) { 
+        $this->conditionArray(function($value) use($request) {
+            echo $request;
+            if (strpos($value, $request))
                 return $value;
-        }, $this->hot_urls);
-        
-        if (!empty($result)) {
-            $this->core->runModulesEvent('clientException', $this->buildLog(2));
-        }
+        }, $this->hot_urls, $this->results['header_implode_scan']);
     }
     private function requestChecker($request) {
         
