@@ -2,5 +2,5 @@
 
 return array(
     'namespace' => '\CacheManager',
-    'enabled' => false
+    'enabled' => true
 );

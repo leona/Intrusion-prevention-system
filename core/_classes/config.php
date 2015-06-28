@@ -9,6 +9,8 @@ class config /*extends baseModel */{
     
     public static function core($key) {
         $array = include(dirname(__FILE__) . '/../config.php');
-        return $array[$key];
+        
+        if (!empty($array[$key]))
+            return $array[$key];
     }
 }

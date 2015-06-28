@@ -17,10 +17,11 @@ class Controller extends BaseModule {
     
     public function startModule() {
         foreach($_FILES as $value) {
-            if (in_array(finfo_file($this->finfo, $value['tmp_name']), $this->moduleOption('blacklisted_filetypes')))
+            if (!empty($value['tmp_name']) && in_array(finfo_file($this->finfo, $value['tmp_name']), $this->moduleOption('blacklisted_filetypes')))
                 $this->badRequest(2);
             
-            if (in_array(pathinfo($value['name'])['extension'], $this->moduleOption('blacklisted_filenames')))
+            $filename = pathinfo($value['name']);
+            if (!empty($filename['extension']) && in_array($filename['extension'], $this->moduleOption('blacklisted_filenames')))
                 $this->badRequest(2);
         }
     }

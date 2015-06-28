@@ -13,12 +13,13 @@ class Controller extends BaseModule {
     
     public function startModule($data, $core) {
         $this->cache = new cache;
-        $this->cache->file('start', 'home');
+        $this->cache->file('start', 'home', 20);
         
     }
     
     public function endModule() {
-        $this->cache->file('end', 'home');
+        $this->cache->file('end', 'home', 20);
+
     }
     
 

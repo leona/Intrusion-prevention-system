@@ -1,0 +1,5 @@
+Listen for an event fired from the email_validator module and other spam checkable things.
+Store it for 1 day...
+Remove dots from gmail emails
+
+Bruteforce checking / form submission limiting

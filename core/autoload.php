@@ -9,7 +9,9 @@ if (cache::fetch('core_structure', config::core('caching')['directory_scans'])) 
     $dir_structure = unserialize(cache::fetch('core_structure'));
 } else {
     $dir_structure = glob(dirname(__FILE__) . '/_*/*.php');
-    cache::store('core_structure', $dir_structure);
+    cache::store('core_structure', $dir_structure, config::core('caching')['directory_store_time']);
 }
-foreach($dir_structure as $value)
-    include_once($value);
+
+array_map(function($value) {
+    include_once $value;
+}, $dir_structure);

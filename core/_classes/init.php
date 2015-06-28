@@ -16,7 +16,9 @@ class initCore {
     
     public function runModulesEvent($event, $event_data = null) {
         foreach($this->module_options as $path => $options) {
-                include_once($path . 'controller.php');
+                if (!@include_once($path . 'controller.php')) {
+                    exit("Module at {$path} is enabled but no controller.php found.");
+                }
                 
                 $this->module_class = '\IPS\modules'. $options['namespace'] . '\Controller';
                 

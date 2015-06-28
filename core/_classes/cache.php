@@ -1,6 +1,8 @@
 <?php
 
 namespace IPS\core\classes;
+use IPS\core\classes\config;
+use IPS\core\classes\Helper;
 
 class cache {
     
@@ -53,15 +55,15 @@ class cache {
         apc_delete($key);
     }
     
-    public function file($point, $cache_name = null, $fetch_only = false, $ttl = null) {
+    public function file($point, $cache_name = null, $ttl = null) {
+        if (config::core('caching')['disable_on_post'] == true && Helper::post())
+            return;
+            
         $this->cache_file = $this->fetchCacheFile($cache_name, $ttl);
-        
-        if ($fetch_only == true) return 'skip';
         
         if ($this->cache_file) {
             echo $this->cache_file;
             die();
-            
         }
         
         if ($point == 'start') {
@@ -69,15 +71,13 @@ class cache {
             return false;
         } 
         
-        $cache_contents = ob_get_clean();
+        $cache_contents = $this->minifyFile(ob_get_clean());
         
         if (!empty($cache_name)) {
             file_put_contents(ips_path . '/cache/' . md5($cache_name), $cache_contents);
         } 
         
-        return $cache_contents;
- 
-        
+        echo $cache_contents;
     }
     
     public function fetchCacheFile($cache_name, $ttl = null) {
@@ -90,5 +90,34 @@ class cache {
                 
             return file_get_contents($filename);
         }
+    }
+    
+    private function minifyFile($buffer) {
+        
+        if (config::core('minify_cache') == false) 
+            return $buffer;
+            
+        // Source http://stackoverflow.com/questions/6225351/how-to-minify-php-page-html-output
+        $search = array(
+            '/\>[^\S ]+/s',  // strip whitespaces after tags, except space
+            '/[^\S ]+\</s',  // strip whitespaces before tags, except space
+            '/(\s)+/s'       // shorten multiple whitespace sequences
+        );
+    
+        $replace = array('>', '<', '\\1');
+    
+        $buffer = preg_replace($search, $replace, $buffer);
+        
+        if (config::core('heavy_minification') == true)  
+            $buffer = preg_replace(
+                array(
+                    '/ {2,}/', '/<!--.*?-->|\t|(?:\r?\n[ \t]*)+/s'
+                ), 
+                array(' ', ''), 
+                $buffer
+            );
+        
+        return $buffer;
+
     }
 }

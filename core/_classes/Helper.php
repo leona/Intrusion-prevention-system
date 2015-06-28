@@ -12,8 +12,10 @@ class Helper {
       return dirname('../assets/' . $name);
    }
    
-   public static function coreConfig($key) {
-      $array = include('../config.php');
-      return $array[$key];
+   public static function config($key) {
+      $array = include_once('../config.php');
+      
+      if (!empty($array[$key]))
+         return $array[$key];
    }
 }
