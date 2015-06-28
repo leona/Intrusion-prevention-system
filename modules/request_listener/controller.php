@@ -1,6 +1,7 @@
 <?php
 namespace IPS\modules\RequestListener;
 use IPS\core\classes\BaseModule;
+use IPS\core\classes\api;
 
 class Controller extends BaseModule {
     
@@ -12,6 +13,8 @@ class Controller extends BaseModule {
     private $results = array();
     
     public function __construct() {
+        echo api::pullFeed('http://www.sibmas.org/membres/feeds.asp');
+        die();
         parent::__construct();
         
         $this->hot_urls = include $this->asset('urls.php');

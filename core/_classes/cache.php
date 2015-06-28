@@ -7,11 +7,28 @@ class cache {
     private static $cache_store = array();
     private $cache_file;
     
+    public static function segment($callback, $key, $ttl = 0) {
+        $fetch = self::fetch($key);
+        
+        if (!empty($fetch)) {
+            return $fetch;
+        }
+        
+        $store = $callback();
+        
+        if (is_array($store))
+            $store = serialize($store);
+            
+        return cache::store($key, $store, $ttl);;
+    }
+    
     public static function store($key, $value, $time = 0) {
         if (is_array($value) || is_object($value)) 
             $value = serialize($value);
 
         apc_store($key, $value, $time);
+        
+        return $value;
     }
     
     public static function fetch($key, $condition = true) {
