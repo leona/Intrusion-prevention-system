@@ -9,5 +9,8 @@ return array(
         'individual_get_scan'   => false,
         'regex_scanning'        => false,
         'smart_scanning'        => false, //Scan certain things only if client is engaging in familiar malicious activity
-    )
+    ),
+    'error_msg' => array(
+        2 => 'REquest validation failed.'
+    ),
 );

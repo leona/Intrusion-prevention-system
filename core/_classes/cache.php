@@ -30,8 +30,8 @@ class cache {
         apc_delete($key);
     }
     
-    public function file($point, $cache_name = null, $fetch_only = false) {
-        $this->cache_file = $this->fetchCacheFile($cache_name);
+    public function file($point, $cache_name = null, $fetch_only = false, $ttl = null) {
+        $this->cache_file = $this->fetchCacheFile($cache_name, $ttl);
         
         if ($fetch_only == true) return 'skip';
         
@@ -57,10 +57,15 @@ class cache {
         
     }
     
-    public function fetchCacheFile($cache_name) {
+    public function fetchCacheFile($cache_name, $ttl = null) {
         $filename = ips_path . '/cache/' . md5($cache_name);
         
-        if (file_exists($filename))
+        if (file_exists($filename)) {
+            
+            if ($ttl !== null && filemtime($filename) < time() - $ttl)
+                return;
+                
             return file_get_contents($filename);
+        }
     }
 }

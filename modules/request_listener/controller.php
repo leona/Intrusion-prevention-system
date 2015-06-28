@@ -27,8 +27,8 @@ class Controller extends BaseModule {
         foreach($this->features as $feature) {
             switch($feature) {
                 case 'header_implode_scan':
-                    $this->scanRequest($this->server('REQUEST_URI'), );
-                    break;
+                    $this->scanRequest($this->server('REQUEST_URI'), $this->hot_urls, 'header_implode_scan');
+                break;
                 case 'individual_post_scan':
                     $this->scanKeywords($_POST);
                 break;
@@ -40,14 +40,17 @@ class Controller extends BaseModule {
                 break;
             }
         }
+        
+        if (!empty($this->filterArray($this->results)))
+            $this->core->runModulesEvent('clientException', $this->buildLog(2));
     }
+    
     
     private function scanRequest($request, $search, $result_key) { 
         $this->conditionArray(function($value) use($request) {
-            echo $request;
-            if (strpos($value, $request))
+            if (strpos($request, $value) || $request == $value)
                 return $value;
-        }, $this->hot_urls, $this->results['header_implode_scan']);
+        }, $search, $this->results[$result_key]);
     }
     private function requestChecker($request) {
         

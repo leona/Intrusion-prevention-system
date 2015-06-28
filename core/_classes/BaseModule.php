@@ -25,8 +25,12 @@ class BaseModule {
     protected function moduleOption($name) {
         if (empty($this->options))
             $this->options = include($this->fetchChildDir() . 'options.php');
-        
-        return $this->options[$name];
+            
+        if (!empty($this->options[$name])) {
+            return $this->options[$name];
+        } else {
+            $this->serverException('Module option "' . $name . '" not found');
+        }
     }
     
     protected function enabledFeatures() {
@@ -51,11 +55,12 @@ class BaseModule {
         }, $array);
         
         $this->filterArray($rtn);
+        
         $result = $rtn;
         return $rtn;
     }
     
-    private function filterArray(&$arr) {
+    protected function filterArray(&$arr) {
         if (is_array($arr)) 
             $arr = array_filter($arr);
             
@@ -81,7 +86,9 @@ class BaseModule {
                 'level'       => $level,
                 'message'     => $this->moduleOption('error_msg')[$level],
                 'request_uri' => $this->server('REQUEST_URI'),
-                'headers'     => implode('|', getallheaders())
+                'headers'     => implode('|', getallheaders()),
+                'post'        => print_r($_POST, true),
+                'get'         => print_r($_GET, true)
         );
     }
     
@@ -93,6 +100,12 @@ class BaseModule {
         return $this->child_dir;
     }
     
+    protected function serverException($msg) {
+        echo '<br><pre>Exception thrown: ';
+        print_r($msg);
+        echo '<br></pre>';
+        die();
+    }
     protected function dd($array) {
         print_r($array);
         die();
