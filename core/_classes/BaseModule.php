@@ -44,7 +44,7 @@ class BaseModule {
             return $callback($key, $value);
         });
 
-        $this->filterArray($array);
+        $array = $this->filterArray($array);
         $result = $array;
         return $array;
     }
@@ -54,13 +54,13 @@ class BaseModule {
             return $callback($value);
         }, $array);
         
-        $this->filterArray($rtn);
+        $rtn = $this->filterArray($rtn);
         
         $result = $rtn;
         return $rtn;
     }
     
-    protected function filterArray(&$arr) {
+    protected function filterArray($arr) {
         if (is_array($arr)) 
             $arr = array_filter($arr);
             

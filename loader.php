@@ -1,4 +1,8 @@
 <?php
+if (!defined('ips_initiated')) {
+    $start = microtime(true);
+}
+
 require_once('core/autoload.php');
 
 use IPS\core\classes\initCore;
