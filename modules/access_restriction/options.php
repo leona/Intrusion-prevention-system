@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    'namespace' => '\CacheManager',
+    'namespace' => '\Starter',
     'enabled' => false
 );

@@ -7,7 +7,7 @@ return array(
         'directory_store_time' => 0,
         'directory_scans'   => false,
         'model_queries'     => false,
-        'meta_queries'      => false,
+        'meta_queries'      => true,
         'autoloads'         => false,
         'config'            => false
     ),

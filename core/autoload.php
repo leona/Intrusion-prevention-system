@@ -5,7 +5,7 @@ require(dirname(__FILE__) . '/_classes/config.php');
 use IPS\core\classes\cache;
 use IPS\core\classes\config;
 
-if (cache::fetch('core_structure', config::core('caching')['directory_scans'])) {
+if (config::core('caching')['directory_scans'] && cache::fetch('core_structure')) {
     $dir_structure = unserialize(cache::fetch('core_structure'));
 } else {
     $dir_structure = glob(dirname(__FILE__) . '/_*/*.php');

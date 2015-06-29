@@ -9,6 +9,7 @@ class cache {
     private static $cache_store = array();
     private $cache_file;
     
+    
     public static function segment($callback, $key, $ttl = 0) {
         $fetch = self::fetch($key);
         
@@ -16,12 +17,12 @@ class cache {
             return $fetch;
         }
         
-        $store = $callback();
+        $store = $callback($key);
      
         if (is_array($store))
             $store = serialize($store);
             
-        return cache::store($key, $store, $ttl);;
+        return cache::store($key, $store, $ttl);
     }
     
     public static function store($key, $value, $time = 0) {
@@ -36,11 +37,8 @@ class cache {
         return $value;
     }
     
-    public static function fetch($key, $condition = true) {
+    public static function fetch($key) {
         if (!function_exists('apc_fetch'))
-            return false;
-            
-        if ($condition == false)
             return false;
         
         if (!empty(self::$cache_store[$key]))
@@ -78,6 +76,10 @@ class cache {
         } 
         
         echo $cache_contents;
+    }
+    
+    public static function works() {
+        return function_exists('apc_fetch');
     }
     
     public function fetchCacheFile($cache_name, $ttl = null) {

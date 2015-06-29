@@ -31,11 +31,11 @@ class initCore {
     }
     
     private function fetchModuleOptions() {
-        if (cache::fetch('module_options', config::core('caching')['directory_scans'])) {
+        if (cache::fetch('module_options') && config::core('caching')['directory_scans']) {
             $this->module_options = unserialize(cache::fetch('module_options'));
             return;
         }
-        
+
         foreach(glob(dirname(__FILE__) . '/../../modules/*/options.php') as $value) {
             $module_options = include $value;
             
