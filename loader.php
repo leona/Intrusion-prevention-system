@@ -16,6 +16,9 @@ if (!defined('ips_initiated')) {
     $core = new initCore;
     
     $core->runModulesEvent('startModule');
+    
+    if (defined('stop_execution'))
+        exit();
 } else {
     
     $core->runModulesEvent('endModule');

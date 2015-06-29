@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    'namespace' => '\Starter',
-    'enabled' => false
+    'namespace' => '\AccessRestriction',
+    'enabled' => true
 );

@@ -2,11 +2,12 @@
 namespace IPS\modules\CSRF;
 use IPS\core\classes\BaseModule;
 use IPS\core\classes\Helper;
-
+use IPS\core\models\log;
 class Controller extends BaseModule {
     
     public function __construct() {
         parent::__construct();
+        
     }
     
     public function startModule($data, $core) {

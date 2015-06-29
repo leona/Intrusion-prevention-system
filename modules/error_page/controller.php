@@ -2,6 +2,7 @@
 namespace IPS\modules\ErrorPage;
 use IPS\core\classes\BaseModule;
 use IPS\core\classes\DB;
+use IPS\core\classes\Helper;
 use IPS\core\classes\View;
 
 class Controller extends BaseModule {
@@ -21,7 +22,7 @@ class Controller extends BaseModule {
             break; 
             case 500:
                 http_response_code(500);
-                $this->renderView('404');
+                $this->renderView('500');
             break;
             default:
                 $this->renderView($error_page);

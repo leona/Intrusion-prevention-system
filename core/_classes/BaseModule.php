@@ -77,7 +77,7 @@ class BaseModule {
         if (!empty($core))
             $core->runModulesEvent('endModules');
             
-        die();
+        define('stop_execution', true);
     }
     
     protected function buildLog($level) {
